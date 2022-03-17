@@ -1,15 +1,18 @@
 const request = require('request');
 const fs = require('fs');
+const input = process.argv.slice(2);
+
+const web = input[0];
+const indexPath = input[1];
 
 const contentFromWeb = (error, response, body) => {
-  fs.writeFile('./index.html', body, err => {
+  fs.writeFile(input[1], body, err => {
     if (err) {
-      console.error(err);
+      console.log('error:', error);
     }
-    return;
+    console.log("statusCode:", response && response.statusCode);
+    console.log(`Downloaded and saved ${body.length} to ${indexPath}`);
   });
 };
-request('http://www.example.edu', contentFromWeb);
+request(web, contentFromWeb);
 /////////////////////////////////////////////////////////////////////////////
-
-
